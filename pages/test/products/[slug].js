@@ -33,6 +33,7 @@ export default function Page() {
         ? process.env.NEXT_PUBLIC_GATEWAY_URL
         : "https://gateway.pinata.cloud";
 
+    
     return (
         <div>
             <Head>

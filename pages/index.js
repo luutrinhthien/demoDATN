@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Files from "@/components/Files";
-import { Form } from "@/components/form";
+// import { Form } from "@/components/form";
 // import { Label } from "@/components/ui/label"
 // import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+// import { Textarea } from "@/components/ui/textarea"
 // import { Button } from "@/components/ui/button"
 import { useNetwork, useSwitchNetwork, useAccount } from 'wagmi'
 import { useContractRead } from 'wagmi'
