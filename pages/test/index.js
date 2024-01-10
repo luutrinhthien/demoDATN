@@ -155,12 +155,15 @@ export default function InputForm() {
         args: [selectProduct, address]
     })
 
-    const { data , isLoading: loading, write: storeData } = useContractWrite({
+    const { data , isLoading: loading, write: storeData, error } = useContractWrite({
         address: contract,
         abi: contractABI,
         functionName: 'addProduct',
         args: [selectProduct, inputs],
     })
+    useEffect(()=>{
+        console.log("Error: ",error)
+    },[error])
 
     const [productList, setProductList] = useState([])
     useEffect(() => {
@@ -176,7 +179,7 @@ export default function InputForm() {
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/mainLogo1.png" />
                 </Head>
-                <div className="flex justify-end mt-[16px]">
+                <div className="flex justify-end mt-[16px] font-style: normal;">
                     {!address && <button className='px-4 py-2 w-[12rem] mr-3 bg-blue-600' style={{ borderRadius: "12px" }}
                         onClick={() => open()}>
                         <p className='text-white'>Connect Wallet</p>

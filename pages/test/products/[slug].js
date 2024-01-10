@@ -52,7 +52,7 @@ export default function Page() {
                 <link rel="icon" href="/mainLogo1.png" />
             </Head>
             {isClient ? <div className=''>
-                <p className='text-center font-bold text-4xl mt-4'>{router.query.slug}</p>
+                <p className='text-center font-bold text-4xl mt-4 font-style: normal;'>{router.query.slug}</p>
                 {/* <div>{address}</div> */}
                 {productList &&
                     <div>{productList.map(
