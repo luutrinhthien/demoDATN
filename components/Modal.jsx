@@ -4,13 +4,6 @@ const LoadingModal = ({ showModal, setShowModal }) => {
 
     return (
         <>
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setShowModal(true)}
-            >
-                Open Modal
-            </button>
-
             {showModal && (
                 <div className="fixed z-10 inset-0 overflow-y-auto">
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
