@@ -190,7 +190,7 @@ export default function InputForm() {
                     </button>}
                 </div>
                 {!selectProduct && productList &&
-                    <div className="flex flex-col items-center justify-center h-screen space-y-4">
+                    <div className="flex flex-col items-center justify-center h-screen space-y-4 font-style: normal;">
                         {productList.map((button, index) => (
                             <button
                                 key={index}
@@ -203,7 +203,7 @@ export default function InputForm() {
                     </div>}
                 {selectProduct && productList &&
                     (whiteList ? <div>
-                        <div className="">
+                        <div className="font-style: normal;">
                             <button
                                 className="rounded-xl bg-blue-500 py-2 px-6 text-white ml-2 mb-4"
                                 onClick={() => setSelectProduct()}
@@ -213,7 +213,7 @@ export default function InputForm() {
                                 </svg>
                             </button>
                         </div>
-                        <div className='text-5xl font-semibold text-center mt-4'>Write Diary of "{selectProduct}"</div>
+                        <div className='text-5xl font-semibold text-center mt-4 font-style: normal;'>Write Diary of "{selectProduct}"</div>
                         <div onSubmit={handleSubmit} className='md:w-[70%] w-[90%] mx-auto mt-11'>
                             {inputs.map((input, index) => (
                                 <div key={index} className="flex flex-col gap-4 p-4 border-t-2 border-indigo-300">
@@ -293,7 +293,7 @@ export default function InputForm() {
                     </div>
                         :
                         (<div>
-                            <div className="">
+                            <div className="font-style: normal;">
                                 <button
                                     className="rounded-xl bg-blue-500 py-2 px-6 text-white ml-2 mb-4"
                                     onClick={() => setSelectProduct()}
@@ -304,9 +304,9 @@ export default function InputForm() {
                                 </button>
                             </div>
 
-                            <div className="flex flex-col items-center justify-center h-screen space-y-4">
+                            <div className="flex flex-col items-center justify-center h-screen space-y-4 font-style: normal;">
                                 <button
-                                    className="bg-blue-500 md:w-[50%] w-[90%] text-black text-3xl text-white font-bold py-2 px-4 rounded"
+                                    className="bg-blue-500 md:w-[50%] w-[90%] text-3xl text-white font-bold py-2 px-4 rounded"
                                 >
                                     You are not in whitelist to write diary!
                                 </button>
