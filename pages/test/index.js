@@ -2,11 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Files from "@/components/Files";
-import { useNetwork, useSwitchNetwork, useAccount, useContractWrite } from 'wagmi'
+import { useNetwork, useSwitchNetwork, useAccount, useContractWrite, useWaitForTransaction } from 'wagmi'
 import { useContractRead } from 'wagmi'
 import { Web3Button, useWeb3Modal } from '@web3modal/react';
 import { contract } from '../../constant/address'
 import contractABI from '../../constant/abi.json'
+import LoadingModal from "@/components/Modal";
 
 export default function InputForm() {
     const { chain } = useNetwork();
@@ -15,6 +16,8 @@ export default function InputForm() {
     const { open, close } = useWeb3Modal()
     const [isClient, setIsClient] = useState(false)
     const [selectProduct, setSelectProduct] = useState()
+
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (chain) {
@@ -36,7 +39,7 @@ export default function InputForm() {
 
     const [uploading, setUploading] = useState(false);
 
-    const inputFile = [useRef(null),useRef(null),useRef(null),useRef(null),useRef(null)]
+    const inputFile = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)]
 
     const uploadFile = async (fileToUpload, index) => {
         try {
@@ -48,21 +51,21 @@ export default function InputForm() {
                 body: formData,
             });
             const ipfsHash = await res.text();
-            if(index == 1){
+            if (index == 1) {
                 setCid(ipfsHash);
-                handleFileChange(0,ipfsHash)
-            }else if(index == 2){
+                handleFileChange(0, ipfsHash)
+            } else if (index == 2) {
                 setCid2(ipfsHash);
-                handleFileChange(1,ipfsHash)
-            }else if(index == 3){
+                handleFileChange(1, ipfsHash)
+            } else if (index == 3) {
                 setCid3(ipfsHash);
-                handleFileChange(2,ipfsHash)
-            }else if(index == 4){
+                handleFileChange(2, ipfsHash)
+            } else if (index == 4) {
                 setCid4(ipfsHash);
-                handleFileChange(3,ipfsHash)
-            }else if(index == 5){
+                handleFileChange(3, ipfsHash)
+            } else if (index == 5) {
                 setCid5(ipfsHash);
-                handleFileChange(4,ipfsHash)
+                handleFileChange(4, ipfsHash)
             }
             setUploading(false);
         } catch (e) {
@@ -104,14 +107,19 @@ export default function InputForm() {
         }
     };
 
-    const [inputs, setInputs] = useState([{ title: null, uploader: address, description: null,timestamp: Date.now(), file: null }]);
+    const [inputs, setInputs] = useState([{ title: null, uploader: address, description: null, timestamp: Date.now(), file: null }]);
 
     const handleAddInput = () => {
         if (inputs.length < 5) {
-            const newInputs = [...inputs, { title: null, uploader: address, description: null,timestamp: Date.now() , file: null }];
+            const newInputs = [...inputs, { title: null, uploader: address, description: null, timestamp: Date.now(), file: null }];
             setInputs(newInputs);
         }
     };
+
+    const resetUI = () => {
+        const newInputs = [{ title: null, uploader: address, description: null, timestamp: Date.now(), file: null }];
+        setInputs(newInputs);
+    }
 
     const handleRemoveInput = (index) => {
         if (inputs.length > 1) {
@@ -129,7 +137,7 @@ export default function InputForm() {
         setInputs(newInputs);
     };
 
-    const handleFileChange = (index,Cid) => {
+    const handleFileChange = (index, Cid) => {
         const newInputs = [...inputs];
         newInputs[index]["file"] = Cid;
         setInputs(newInputs);
@@ -155,20 +163,38 @@ export default function InputForm() {
         args: [selectProduct, address]
     })
 
-    const { data , isLoading: loading, write: storeData, error } = useContractWrite({
+    const { data, isLoading: loading, write: storeData, error } = useContractWrite({
         address: contract,
         abi: contractABI,
         functionName: 'addProduct',
         args: [selectProduct, inputs],
     })
-    useEffect(()=>{
-        console.log("Error: ",error)
-    },[error])
+
+    // useEffect(() => {
+    //     console.log("Error: ", error)
+    // }, [error])
 
     const [productList, setProductList] = useState([])
     useEffect(() => {
         setProductList(productFetch)
     }, [productFetch])
+
+    const { isSuccess, isLoading: waitLoading } = useWaitForTransaction({
+        hash: data?.hash,
+    });
+
+    useEffect(() => {
+        if (waitLoading) {
+            setShowModal(true)
+        }
+    }, [waitLoading])
+
+    useEffect(() => {
+        if (isSuccess) {
+            setShowModal(false)
+            resetUI()
+        }
+    }, [isSuccess])
 
     return (
         <div>
@@ -179,6 +205,7 @@ export default function InputForm() {
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/mainLogo1.png" />
                 </Head>
+                {showModal && <LoadingModal showModal={showModal} setShowModal={setShowModal}/>}
                 <div className="flex justify-end mt-[16px] font-style: normal;">
                     {!address && <button className='px-4 py-2 w-[12rem] mr-3 bg-blue-600' style={{ borderRadius: "12px" }}
                         onClick={() => open()}>
@@ -238,8 +265,8 @@ export default function InputForm() {
                                             <input type="file"
                                                 id="file"
                                                 ref={inputFile[index]}
-                                                onChange={index == 0?handleChange: index == 1?handleChange2:
-                                                index==2?handleChange3:index==3?handleChange4:handleChange5}
+                                                onChange={index == 0 ? handleChange : index == 1 ? handleChange2 :
+                                                    index == 2 ? handleChange3 : index == 3 ? handleChange4 : handleChange5}
                                                 style={{ display: "none" }} />
                                         </div>
                                         <button className="w-[50%] mt-3 rounded-xl bg-white p-2 mb-2" type="submit"
@@ -247,20 +274,20 @@ export default function InputForm() {
                                             onClick={() => inputFile[index].current.click()}>
                                             {uploading ? "Uploading..." : "Upload"}
                                         </button>
-                                        {index == 0?(cid && (
+                                        {index == 0 ? (cid && (
                                             <Files cid={cid} />
-                                        )):
-                                        index == 1?(cid2 && (
-                                            <Files cid={cid2} />
-                                        )):
-                                        index == 3?(cid4 && (
-                                            <Files cid={cid4} />
-                                        )):
-                                        index == 4?(cid5 && (
-                                            <Files cid={cid5} />
-                                        )):(cid3 && (
-                                            <Files cid={cid3} />
-                                        ))
+                                        )) :
+                                            index == 1 ? (cid2 && (
+                                                <Files cid={cid2} />
+                                            )) :
+                                                index == 3 ? (cid4 && (
+                                                    <Files cid={cid4} />
+                                                )) :
+                                                    index == 4 ? (cid5 && (
+                                                        <Files cid={cid5} />
+                                                    )) : (cid3 && (
+                                                        <Files cid={cid3} />
+                                                    ))
                                         }
                                         {index > 0 && (
                                             <button
@@ -287,8 +314,8 @@ export default function InputForm() {
                                 </div>
                             )}
                             <button type="button"
-                            onClick={storeData}
-                            className='w-full my-4 rounded-lg py-2 bg-slate-400 hover:bg-slate-500 text-lg text-white'>Submit</button>
+                                onClick={storeData}
+                                className='w-full my-4 rounded-lg py-2 bg-slate-400 hover:bg-slate-500 text-lg text-white'>Submit</button>
                         </div>
                     </div>
                         :
