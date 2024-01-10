@@ -33,7 +33,16 @@ export default function Page() {
         ? process.env.NEXT_PUBLIC_GATEWAY_URL
         : "https://gateway.pinata.cloud";
 
-    
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        return `${hours}:${minutes} - ${day}/${month}/${year}`;
+    }
+
     return (
         <div>
             <Head>
@@ -63,7 +72,7 @@ export default function Page() {
                                 <div><span className='text-lg font-semibold'>Description:</span>
                                     &nbsp; {item.description}</div>
                                 <div><span className='text-lg font-semibold'>Date update:</span>
-                                    &nbsp; {Number(item.timestamp)}</div>
+                                    &nbsp; {formatDate(Number(item.timestamp))}</div>
                                 <div>
                                     <span className='text-lg font-semibold'>Image:</span>
                                     &nbsp;&nbsp;
