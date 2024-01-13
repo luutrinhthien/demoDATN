@@ -1,12 +1,12 @@
 @font-face {
-  font-family: "Agrandir";
+  /* font-family: "Agrandir"; */
   font-style: normal;
   font-weight: 100 900;
   src: url("../fonts/AgrandirVariable.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Telegraf";
+  /* font-family: "Telegraf"; */
   font-style: normal;
   font-weight: 100 900;
   src: url("../fonts/TelegrafVariable.woff2") format("woff2");

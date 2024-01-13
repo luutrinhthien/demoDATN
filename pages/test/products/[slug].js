@@ -51,13 +51,13 @@ export default function Page() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/mainLogo1.png" />
             </Head>
-            {isClient ? <div className='font-style: normal;'>
-                <p className='text-center font-bold text-4xl mt-4 font-style: normal;'>{router.query.slug}</p>
+            {isClient ? <div className='not-italic'>
+                <p className='text-center font-bold text-4xl mt-4 not-italic'>{router.query.slug}</p>
                 {/* <div>{address}</div> */}
                 {productList &&
                     <div>{productList.map(
                         (item, index) => (
-                            <div className='my-4 bg-slate-300 md:w-[50%] w-[90%] px-4 py-2 rounded-md mx-auto font-style: normal;'>
+                            <div className='my-4 bg-slate-300 md:w-[50%] w-[90%] px-4 py-2 rounded-md mx-auto not-italic'>
                                 <div className='flex justify-center'>
                                     <span className='text-lg font-semibold'>Uploader:</span>
                                     &nbsp;

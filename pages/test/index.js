@@ -206,7 +206,7 @@ export default function InputForm() {
                     <link rel="icon" href="/mainLogo1.png" />
                 </Head>
                 {showModal && <LoadingModal showModal={showModal} setShowModal={setShowModal}/>}
-                <div className="flex justify-end mt-[16px] font-style: normal;">
+                <div className="flex justify-end mt-[16px] not-italic">
                     {!address && <button className='px-4 py-2 w-[12rem] mr-3 bg-blue-600' style={{ borderRadius: "12px" }}
                         onClick={() => open()}>
                         <p className='text-white'>Connect Wallet</p>
@@ -217,7 +217,7 @@ export default function InputForm() {
                     </button>}
                 </div>
                 {!selectProduct && productList &&
-                    <div className="flex flex-col items-center justify-center h-screen space-y-4 font-style: normal;">
+                    <div className="flex flex-col items-center justify-center h-screen space-y-4 not-italic">
                         {productList.map((button, index) => (
                             <button
                                 key={index}
@@ -230,7 +230,7 @@ export default function InputForm() {
                     </div>}
                 {selectProduct && productList &&
                     (whiteList ? <div>
-                        <div className="font-style: normal;">
+                        <div className="not-italic">
                             <button
                                 className="rounded-xl bg-blue-500 py-2 px-6 text-white ml-2 mb-4"
                                 onClick={() => setSelectProduct()}
@@ -240,7 +240,7 @@ export default function InputForm() {
                                 </svg>
                             </button>
                         </div>
-                        <div className='text-5xl font-semibold text-center mt-4 font-style: normal;'>Write Diary of "{selectProduct}"</div>
+                        <div className='text-5xl font-semibold text-center mt-4 not-italic'>Write Diary of "{selectProduct}"</div>
                         <div onSubmit={handleSubmit} className='md:w-[70%] w-[90%] mx-auto mt-11'>
                             {inputs.map((input, index) => (
                                 <div key={index} className="flex flex-col gap-4 p-4 border-t-2 border-indigo-300">
@@ -320,7 +320,7 @@ export default function InputForm() {
                     </div>
                         :
                         (<div>
-                            <div className="font-style: normal;">
+                            <div className="not-italic">
                                 <button
                                     className="rounded-xl bg-blue-500 py-2 px-6 text-white ml-2 mb-4"
                                     onClick={() => setSelectProduct()}
@@ -331,7 +331,7 @@ export default function InputForm() {
                                 </button>
                             </div>
 
-                            <div className="flex flex-col items-center justify-center h-screen space-y-4 font-style: normal;">
+                            <div className="flex flex-col items-center justify-center h-screen space-y-4 not-italic">
                                 <button
                                     className="bg-blue-500 md:w-[50%] w-[90%] text-3xl text-white font-bold py-2 px-4 rounded"
                                 >
